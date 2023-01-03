@@ -1,6 +1,8 @@
 # Intro
 This is just some random calculations I commonly use day to day in one place
 
+## Items to add
+* Coffee ratio
 * Dish Pointer Link
 * Add in Easting / Northing / Lat / Long bearings between two points, from up / down, then from True North (CW) and for CAD (CCW)
 * Add in Watt / Amp / Volts calculations
