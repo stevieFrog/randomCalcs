@@ -12,3 +12,7 @@ This is just some random calculations I commonly use day to day in one place
 * 150g rice + 300g water = 350g cooked rice
 * Rice cooker = 145g
 * Rice cooker + lids = 160g
+
+### Coffee
+Coffee Ratio, grams of coffee, ratio = amount of water
+dropdown for ratio 1: xxx ()
