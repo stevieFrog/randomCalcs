@@ -1,6 +1,0 @@
-.gitignore
-Backup
-Backup/
-package.json
-npm-debug.log
-test.js
