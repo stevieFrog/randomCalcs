@@ -52,12 +52,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function fibSequence(startValue, noOfValues){
+        console.log(startValue, noOfValues);
         var outputValue = startValue;
-        var nMinus1 = 1;
-        var nMinus2 = 1;
-        for (i = 1; i <= noOfValues; i++){
-            if (i === 1 | i === 2) {
+        var nMinus1 = startValue - 1;
+        var nMinus2 = startValue - 2;
+        for (i = 0; i <= noOfValues; i++){
+            if (outputValue == 1 | outputValue == 2) {
                 console.log('1');
+                outputValue = outputValue + 1;
             } else {
                 outputValue = nMinus1 + nMinus2;
                 console.log(outputValue);
@@ -67,6 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    fibSequence(1,30);
+    document.getElementById("fibSequenceLength").addEventListener("change", function() {
+        fibSequence(fibSequenceStart.value, this.value);
+    })
 
 })
