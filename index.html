@@ -14,11 +14,7 @@
         <label for="reportDate">Report Date:</label>
         <input type="date" id="reportDate" name="reportDate"><br>
     </div>
-    <div class="forLighting">
-        <h2>Split Fittings</h2>
-        <label for="splitLightFitting">Distance:</label>
-        <input type="text" id="splitLightFitting" name="splitLightFitting"><br>
-    </div>
+
 
     <div class="coffeeRatio">
         <h2>Coffee Ratio</h2>
@@ -51,5 +47,27 @@
         <input type="password" id="passwordForCalculation" name="passwordForCalculation"><br>
     </div>
 
+    <div class="timelapseCalcs">
+        <h2>Timelapse Calculator</h2>
+        <label for="finalFPS">Final FPS</label>
+        <input type="text" id="finalFPS" name ="finalFPS" size="4" value="29.97">
+        <label for="finalDuration">Final Duration (Secs)</label>
+        <input type="text" id="finalDuration" name="finalDuration" size="4">
+        <br>
+        <label for="lengthOfAction">Action Time (min)</label>
+        <input type="text" id="lengthOfAction" name="lengthOfAction" size="5">
+        <button type="button" id="btnCalcTimeLapse" name="btnCalcTimeLapse">Go</button>
+        <br>
+        <label for="requiredFrames">No of Frames Required</label>
+        <input type="text" id="requiredFrames" name="requiredFrames" size="5">
+        <label for="requiredInterval">Interval (sec)</label>
+        <input type="text" id="requiredInterval" name="requiredInterval" size="5">
+    <br>
+    </div>
 
+    <div class="forLighting">
+        <h2>Split Fittings</h2>
+        <label for="splitLightFitting">Distance:</label>
+        <input type="text" id="splitLightFitting" name="splitLightFitting"><br>
+    </div>
 </body>

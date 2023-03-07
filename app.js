@@ -145,14 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
             passwordStrength = 'VERY VERY STRONG'
         } else passwordStrength = 'CRAZY STRONG'
 
-
-     /*   console.log(password);
-        console.log(passwordArray);
-        console.log(lowerCaseLatinCount, upperCaseLatinCount, digitsCount, specialCount, totalPool);
-        console.log("Password Entropy: " + passwordEntropy)
-    */
         document.write('Password Contains <br> ' + lowerCaseLatinCount + ' a-z characters <br> ' + upperCaseLatinCount + ' A-Z characters <br> ' + digitsCount + ' 0-9 <br> ' + specialCount + ' Special characters<br><br> Password length is ' + passwordArray.length + '<br>The size of the character pool is:  ' + totalPool + '<br><h2>Password Entropy is: ' + passwordEntropyRounded + '</h2><h2>The password strength is: '+ passwordStrength + '</h2> This would require approx ' + guessesRequired + ' guesses <br><br>At '+ smallGuessCount + ' guesses per second this would take approximately <br>' + mathRound(guessesRequired / smallGuessCount,0) + ' Seconds to crack<br>' +  mathRound(guessesRequired / (smallGuessCount * 86400),1) + ' Days to crack<br>' + mathRound(guessesRequired / (smallGuessCount * 86400 * 365),2) + ' Years to crack<br>' + mathRound(guessesRequired / (smallGuessCount * 86400 * 365 * 10),2) + ' Decades to crack<br><br>At '+ mediumGuessCount + ' guesses per second this would take approximately <br>' + mathRound(guessesRequired / mediumGuessCount,0) + ' Seconds to crack<br>' +  mathRound(guessesRequired / (mediumGuessCount * 86400),1) + ' Days to crack<br>' + mathRound(guessesRequired / (mediumGuessCount * 86400 * 365),2) + ' Years to crack<br>' + mathRound(guessesRequired / (mediumGuessCount * 86400 * 365 * 10),2) + ' Decades to crack<br><br>At '+ largeGuessCount + ' guesses per second this would take approximately <br>' + mathRound(guessesRequired / largeGuessCount,0) + ' Seconds to crack<br>' +  mathRound(guessesRequired / (largeGuessCount * 86400),1) + ' Days to crack<br>' + mathRound(guessesRequired / (largeGuessCount * 86400 * 365),2) + ' Years to crack<br>' + mathRound(guessesRequired / (largeGuessCount * 86400 * 365 * 10),2) + ' Decades to crack<br>');
-        
     }
 
     document.getElementById("passwordForCalculation").addEventListener("change", function() {
@@ -160,4 +153,11 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
 
+    document.getElementById("btnCalcTimeLapse").addEventListener("click", function() {
+        let totalDurationSec = lengthOfAction.value * 60;
+        let result_framesRequired = mathRound(finalDuration.value * finalFPS.value,4);
+        let result_requiredInterval = mathRound(totalDurationSec / result_framesRequired,4);
+        document.getElementById("requiredFrames").value = result_framesRequired;
+        document.getElementById("requiredInterval").value = result_requiredInterval;
+    })
 })
