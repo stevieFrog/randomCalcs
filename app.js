@@ -160,4 +160,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("requiredFrames").value = result_framesRequired;
         document.getElementById("requiredInterval").value = result_requiredInterval;
     })
+
+    document.getElementById("btnCleanColourPage").addEventListener("click", function() {
+        let newBackgroundColour = document.getElementById("cleanColourPage").value;
+        document.write(newBackgroundColour);
+        document.body.style.backgroundColor=newBackgroundColour;
+    })
 })
