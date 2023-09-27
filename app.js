@@ -172,6 +172,9 @@ document.addEventListener('DOMContentLoaded', () => {
         let height2=height*height;
         let weightKG = document.getElementById("weightInKG").value;
         let BMI = mathRound(weightKG/height2,2);
+        let BMItarget = 34;
+        let weightTarget = BMItarget * height2;
         document.write('<h1>BMI= ' + BMI + '</h1>')
+        document.write('<h1>Weight target for ' + BMItarget + ' is ' + mathRound(weightTarget,2) + ' kg</h1>')
     })
 })
