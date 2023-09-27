@@ -166,4 +166,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.write(newBackgroundColour);
         document.body.style.backgroundColor=newBackgroundColour;
     })
+
+    document.getElementById("weightInKG").addEventListener("change", function() {
+        let height=1.73;
+        let height2=height*height;
+        let weightKG = document.getElementById("weightInKG").value;
+        let BMI = mathRound(weightKG/height2,2);
+        document.write('<h1>BMI= ' + BMI + '</h1>')
+    })
 })

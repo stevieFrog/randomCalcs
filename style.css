@@ -36,3 +36,9 @@ body{
     width: 50%;
     align-content: start;
 }
+
+.BMI{
+    background-color: aquamarine;
+    width: 50%;
+    align-content: flex-start;
+}
