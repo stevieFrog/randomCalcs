@@ -20,8 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             bacsReportDate = bacsYear + daysFromYearStart;
         }
-
+        document.write('<link rel="stylesheet" href="style.css"></link><div class="bacsReport">')
         document.write('For BACS reporting date use: ' + bacsReportDate);
+        document.write('</div>')
 		setTimeout(() => { window.location.reload(true); }, 300000);
         return;
     }
@@ -37,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const magicThirdsRatio = distance *(3/16);
         const halfDistance = distance / 2;
         const listLength = 15;
+        document.write('<link rel="stylesheet" href="style.css"></link><div class="forLighting">')
         document.write('My magic thirds ratio (3/16): ' + magicThirdsRatio + ' || ' + halfDistance + ' || ' + (magicThirdsRatio + halfDistance) + '<br>')
         document.write('Or Plus/Minus halfway: ' + (halfDistance - magicThirdsRatio) + '<br><br>')
         for (i = 2; i <= listLength; i++){
@@ -44,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.write(i + ' Split: ' + mathRound(splitDistance,2) + ' Edges: ' + mathRound((splitDistance/2),2) +'<br>');
         }
 		setTimeout(() => { window.location.reload(true); }, 120000);
+        document.write('</div>')
         return;
     }
 
@@ -76,7 +79,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function coffeeWaterRatio (coffeeRatio, coffeeMass) {
         console.log(coffeeRatio, coffeeMass);
         const waterMass = coffeeRatio * coffeeMass;
+        document.write('<link rel="stylesheet" href="style.css"></link><div class="coffeeRatio">')
         document.write('<h2>Coffee</h2><br>For a 1:' + coffeeRatio + ' Ratio with ' + coffeeMass + 'g coffee<br>You will need ' + waterMass + ' grams of water<br>');
+        document.write('</div>')
     }
 
     document.getElementById("coffeeMass").addEventListener("change", function() {
@@ -144,8 +149,9 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if(passwordEntropy<200){
             passwordStrength = 'VERY VERY STRONG'
         } else passwordStrength = 'CRAZY STRONG'
-
+        document.write('<link rel="stylesheet" href="style.css"></link><div class="passwordEntropy">')
         document.write('Password Contains <br> ' + lowerCaseLatinCount + ' a-z characters <br> ' + upperCaseLatinCount + ' A-Z characters <br> ' + digitsCount + ' 0-9 <br> ' + specialCount + ' Special characters<br><br> Password length is ' + passwordArray.length + '<br>The size of the character pool is:  ' + totalPool + '<br><h2>Password Entropy is: ' + passwordEntropyRounded + '</h2><h2>The password strength is: '+ passwordStrength + '</h2> This would require approx ' + guessesRequired + ' guesses <br><br>At '+ smallGuessCount + ' guesses per second this would take approximately <br>' + mathRound(guessesRequired / smallGuessCount,0) + ' Seconds to crack<br>' +  mathRound(guessesRequired / (smallGuessCount * 86400),1) + ' Days to crack<br>' + mathRound(guessesRequired / (smallGuessCount * 86400 * 365),2) + ' Years to crack<br>' + mathRound(guessesRequired / (smallGuessCount * 86400 * 365 * 10),2) + ' Decades to crack<br><br>At '+ mediumGuessCount + ' guesses per second this would take approximately <br>' + mathRound(guessesRequired / mediumGuessCount,0) + ' Seconds to crack<br>' +  mathRound(guessesRequired / (mediumGuessCount * 86400),1) + ' Days to crack<br>' + mathRound(guessesRequired / (mediumGuessCount * 86400 * 365),2) + ' Years to crack<br>' + mathRound(guessesRequired / (mediumGuessCount * 86400 * 365 * 10),2) + ' Decades to crack<br><br>At '+ largeGuessCount + ' guesses per second this would take approximately <br>' + mathRound(guessesRequired / largeGuessCount,0) + ' Seconds to crack<br>' +  mathRound(guessesRequired / (largeGuessCount * 86400),1) + ' Days to crack<br>' + mathRound(guessesRequired / (largeGuessCount * 86400 * 365),2) + ' Years to crack<br>' + mathRound(guessesRequired / (largeGuessCount * 86400 * 365 * 10),2) + ' Decades to crack<br>');
+        document.write('</div>')
     }
 
     document.getElementById("passwordForCalculation").addEventListener("change", function() {
@@ -168,14 +174,17 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     document.getElementById("weightInKG").addEventListener("change", function() {
-        let height=1.73;
+        let height = document.getElementById("heightM").value;
         let height2=height*height;
         let weightKG = document.getElementById("weightInKG").value;
         let BMI = mathRound(weightKG/height2,2);
-        let BMItarget = 34;
+        let BMItarget = document.getElementById("targetBMI").value;
         let weightTarget = BMItarget * height2;
         let weightTargetChange = weightTarget - weightKG
+        let weightTargetChangeLB = weightTargetChange * 2.20462
+        document.write('<link rel="stylesheet" href="style.css"></link><div class="BMI">')
         document.write('<h1>BMI= ' + BMI + '</h1>')
-        document.write('<h1>Weight target for ' + BMItarget + ' is ' + mathRound(weightTarget,2) + ' Kg. a Change of ' + mathRound(weightTargetChange,2) + 'Kg</h1>')
+        document.write('<h2>Weight target for ' + BMItarget + ' is ' + mathRound(weightTarget,2) + ' Kg. </br>A change of ' + mathRound(weightTargetChange,2) + 'Kg/' + mathRound(weightTargetChangeLB,1) + 'lb</h2>')
+        document.write('</div>')
     })
 })

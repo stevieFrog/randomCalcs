@@ -42,3 +42,7 @@ body{
     width: 50%;
     align-content: flex-start;
 }
+
+.width25Percent{
+    width:25%;
+}
