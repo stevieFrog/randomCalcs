@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spacing Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f11;
+    --surface: #18181c;
+    --border: #2a2a32;
+    --accent: #e8ff47;
+    --accent2: #47c8ff;
+    --text: #f0f0f0;
+    --muted: #666672;
+    --success: #47ffaa;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 4px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 36px;
+  }
+
+  .container { max-width: 860px; margin: 0 auto; }
+
+  /* INPUT ROW */
+  .input-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+
+  .input-label {
+    font-size: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .input-group { display: flex; flex-direction: column; }
+
+  input[type="number"] {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 1.4rem;
+    font-weight: 500;
+    padding: 12px 18px;
+    border-radius: 8px;
+    width: 180px;
+    outline: none;
+    transition: border-color 0.2s;
+    -moz-appearance: textfield;
+  }
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+  input[type="number"]:focus { border-color: var(--accent); }
+
+  .btn-clear {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'Syne', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    align-self: flex-end;
+    transition: all 0.2s;
+  }
+  .btn-clear:hover { border-color: #ff4757; color: #ff4757; }
+
+  /* SECTION LABELS */
+  .section-label {
+    font-size: 0.7rem;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* TABLES */
+  .table-wrap { margin-bottom: 40px; overflow-x: auto; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'DM Mono', monospace;
+  }
+
+  thead th {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    padding: 10px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    font-weight: 500;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid #1e1e24;
+    transition: background 0.15s;
+  }
+  tbody tr:hover { background: #1a1a20; }
+
+  tbody td {
+    padding: 11px 16px;
+    font-size: 0.95rem;
+    vertical-align: middle;
+  }
+
+  .td-split { color: var(--muted); font-size: 0.85rem; }
+
+  .td-val {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .val-num {
+    color: var(--text);
+    font-size: 1rem;
+    font-weight: 500;
+    min-width: 80px;
+  }
+
+  .btn-copy {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    padding: 3px 9px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .btn-copy:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-copy.copied { border-color: var(--success); color: var(--success); }
+
+  /* MAGIC THIRDS TABLE */
+  .magic-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .magic-badge {
+    background: linear-gradient(135deg, #ff6b35, #ff47aa);
+    color: #fff;
+    font-size: 0.6rem;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .magic-th { color: var(--accent2) !important; }
+
+  .magic-val { color: var(--accent2) !important; }
+
+  /* HIDDEN state */
+  .results-section { display: none; }
+  .results-section.visible { display: block; }
+
+  .placeholder {
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    padding: 40px 0;
+    text-align: center;
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+  }
+  .placeholder span { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Spacing Calculator</h1>
+  <p class="subtitle">centres · edges · magic thirds</p>
+
+  <div class="input-row">
+    <div class="input-group">
+      <div class="input-label">Distance</div>
+      <input type="number" id="distanceInput" placeholder="e.g. 1000" min="0" />
+    </div>
+    <button class="btn-clear" onclick="clearAll()">✕ Clear</button>
+  </div>
+
+  <div id="placeholder" class="placeholder">Enter a <span>Distance</span> to calculate results</div>
+
+  <!-- MAGIC THIRDS TABLE -->
+  <div class="results-section" id="magicSection">
+    <div class="magic-header">
+      <div class="section-label" style="flex:1; margin-bottom:0;">Magic Thirds Ratio</div>
+      <span class="magic-badge">× 3/16 · ÷ 2 · × 11/16 · Δ</span>
+    </div>
+    <div class="table-wrap">
+      <table id="magicTable">
+        <thead>
+          <tr>
+            <th class="magic-th">× 3/16</th>
+            <th class="magic-th">÷ 2</th>
+            <th class="magic-th">× 11/16</th>
+            <th class="magic-th">(Col 3 − Col 2) × 2</th>
+          </tr>
+        </thead>
+        <tbody id="magicBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SPLIT TABLE -->
+  <div class="results-section" id="splitSection">
+    <div class="section-label">Split / Centres / Edges</div>
+    <div class="table-wrap">
+      <table id="splitTable">
+        <thead>
+          <tr>
+            <th>Split</th>
+            <th>Centres</th>
+            <th>Edges</th>
+          </tr>
+        </thead>
+        <tbody id="splitBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  const input = document.getElementById('distanceInput');
+  input.addEventListener('input', calculate);
+
+  function round(n) {
+    return Math.round(n * 1000) / 1000;
+  }
+
+  function fmt(n) {
+    // Show up to 3 decimal places, strip trailing zeros
+    return parseFloat(n.toFixed(3)).toString();
+  }
+
+  function makeCopyBtn(value) {
+    const btn = document.createElement('button');
+    btn.className = 'btn-copy';
+    btn.textContent = 'copy';
+    btn.onclick = () => {
+      navigator.clipboard.writeText(value).then(() => {
+        btn.textContent = '✓ copied';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'copy';
+          btn.classList.remove('copied');
+        }, 1500);
+      });
+    };
+    return btn;
+  }
+
+  function valCell(value) {
+    const td = document.createElement('td');
+    const wrap = document.createElement('div');
+    wrap.className = 'td-val';
+    const num = document.createElement('span');
+    num.className = 'val-num';
+    num.textContent = fmt(value);
+    wrap.appendChild(num);
+    wrap.appendChild(makeCopyBtn(fmt(value)));
+    td.appendChild(wrap);
+    return td;
+  }
+
+  function calculate() {
+    const raw = input.value.trim();
+    const dist = parseFloat(raw);
+
+    const placeholder = document.getElementById('placeholder');
+    const splitSection = document.getElementById('splitSection');
+    const magicSection = document.getElementById('magicSection');
+
+    if (!raw || isNaN(dist) || dist <= 0) {
+      placeholder.style.display = 'block';
+      splitSection.classList.remove('visible');
+      magicSection.classList.remove('visible');
+      return;
+    }
+
+    placeholder.style.display = 'none';
+    splitSection.classList.add('visible');
+    magicSection.classList.add('visible');
+
+    // --- Split table ---
+    const splitBody = document.getElementById('splitBody');
+    splitBody.innerHTML = '';
+    for (let s = 2; s <= 15; s++) {
+      const centres = dist / s;
+      const edges = centres / 2;
+      const tr = document.createElement('tr');
+
+      const tdSplit = document.createElement('td');
+      tdSplit.className = 'td-split';
+      tdSplit.textContent = s;
+      tr.appendChild(tdSplit);
+      tr.appendChild(valCell(centres));
+      tr.appendChild(valCell(edges));
+      splitBody.appendChild(tr);
+    }
+
+    // --- Magic thirds table ---
+    const c1 = dist * (3 / 16);
+    const c2 = dist / 2;
+    const c3 = dist * (11 / 16);
+    const c4 = (c3 - c2) * 2;
+
+    const magicBody = document.getElementById('magicBody');
+    magicBody.innerHTML = '';
+    const tr = document.createElement('tr');
+    [c1, c2, c3, c4].forEach(v => {
+      const td = valCell(v);
+      td.querySelector('.val-num').classList.add('magic-val');
+      tr.appendChild(td);
+    });
+    magicBody.appendChild(tr);
+  }
+
+  function clearAll() {
+    input.value = '';
+    calculate();
+    input.focus();
+  }
+</script>
+</body>
+</html>
