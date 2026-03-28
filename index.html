@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f0e8;
+      --ink: #1a1612;
+      --accent: #c84b2f;
+      --muted: #8a7f72;
+      --card-bg: #fff;
+      --card-border: #e0d8cc;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'DM Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Decorative background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--card-border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--card-border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 560px;
+      width: 100%;
+    }
+
+    header {
+      margin-bottom: 3rem;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 6vw, 3.5rem);
+      line-height: 1.05;
+      color: var(--ink);
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    .subtitle {
+      margin-top: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 4px;
+      padding: 1.5rem 1.75rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.15s; }
+    .card:nth-child(2) { animation-delay: 0.25s; }
+    .card:nth-child(3) { animation-delay: 0.35s; }
+
+    .card:hover {
+      border-color: var(--accent);
+      box-shadow: 4px 4px 0 var(--accent);
+      transform: translate(-2px, -2px);
+    }
+
+    .card-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .card-number {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+    }
+
+    .card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.35rem;
+      line-height: 1.1;
+    }
+
+    .card-desc {
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.1rem;
+    }
+
+    .arrow {
+      font-size: 1.4rem;
+      color: var(--muted);
+      transition: color 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    .card:hover .arrow {
+      color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <p class="eyebrow">Utilities</p>
+      <h1>Your <em>tools,</em><br>at a glance.</h1>
+      <p class="subtitle">Select a tool below to get started.</p>
+    </header>
+
+    <nav class="cards">
+      <a href="priceCompare/index.html" class="card">
+        <div class="card-left">
+          <span class="card-number">01</span>
+          <span class="card-title">Price Compare</span>
+          <span class="card-desc">Compare prices side by side</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="splitDistance/index.html" class="card">
+        <div class="card-left">
+          <span class="card-number">02</span>
+          <span class="card-title">Split Distance</span>
+          <span class="card-desc">Calculate plit distance for ID Fittings</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="superseeded/index.html" class="card">
+        <div class="card-left">
+          <span class="card-number">03</span>
+          <span class="card-title">Superseeded</span>
+          <span class="card-desc">Previous version of Random Calcs</span>
+        </div>
+        <span class="arrow">→</span>
+      </a>
+    </nav>
+  </div>
+</body>
+</html>
