@@ -1,0 +1,208 @@
+
+<div style="padding: 1.5rem 0; max-width: 480px; margin: 0 auto; font-family: var(--font-sans);">
+  <h2 class="sr-only">Pomodoro timer</h2>
+
+  <div style="display:flex; gap:8px; justify-content:center; margin-bottom:1.25rem;">
+    <span id="chip-work" style="font-size:12px; padding:3px 10px; border-radius:999px; background:var(--color-background-info); color:var(--color-text-info);">Work: 25 min</span>
+    <span id="chip-rest" style="font-size:12px; padding:3px 10px; border-radius:999px; background:var(--color-background-success); color:var(--color-text-success);">Rest: 5 min</span>
+  </div>
+
+  <div id="phase-label" style="font-size:12px; font-weight:500; letter-spacing:0.08em; text-transform:uppercase; text-align:center; margin-bottom:12px; color:var(--color-text-info);">Work session</div>
+
+  <div style="display:flex; justify-content:center; margin-bottom:1.5rem;">
+    <svg id="dial-svg" width="240" height="240" viewBox="0 0 240 240" style="overflow:visible;">
+      <circle cx="120" cy="120" r="108" stroke-width="7" fill="none" stroke="var(--color-border-tertiary)"/>
+      <circle id="ring" cx="120" cy="120" r="108" stroke-width="7" fill="none"
+        stroke="#185FA5" stroke-linecap="round"
+        stroke-dasharray="678.58" stroke-dashoffset="0"
+        transform="rotate(-90 120 120)"
+        style="transition: stroke-dashoffset 1s linear;"/>
+      <foreignObject x="30" y="55" width="180" height="130">
+        <div xmlns="http://www.w3.org/1999/xhtml" style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; gap:12px;">
+          <div style="display:flex; align-items:baseline; justify-content:center;">
+            <span id="timer-mins" style="font-size:52px; font-weight:500; color:var(--color-text-primary); width:2.1ch; text-align:center; font-feature-settings:'tnum'; display:inline-block; line-height:1; font-family:var(--font-sans);">25</span>
+            <span style="font-size:52px; font-weight:500; color:var(--color-text-primary); width:0.45ch; text-align:center; display:inline-block; line-height:1; font-family:var(--font-sans);">:</span>
+            <span id="timer-secs" style="font-size:52px; font-weight:500; color:var(--color-text-primary); width:2.1ch; text-align:center; font-feature-settings:'tnum'; display:inline-block; line-height:1; font-family:var(--font-sans);">00</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <button id="btn-reset" title="Reset" style="width:34px; height:34px; border-radius:50%; border:0.5px solid var(--color-border-secondary); background:var(--color-background-primary); color:var(--color-text-primary); cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; flex-shrink:0;">
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none" style="display:block;">
+                <path d="M2.5 8a5.5 5.5 0 1 0 1.1-3.3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M2.5 4.5V8H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button id="btn-start" title="Start" style="width:44px; height:44px; border-radius:50%; border:0.5px solid var(--color-border-info); background:var(--color-background-info); color:var(--color-text-info); cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; flex-shrink:0;">
+              <svg id="icon-play" width="18" height="18" viewBox="0 0 18 18" fill="currentColor" style="display:block; margin-left:2px;">
+                <path d="M5.5 3.5l9 5.5-9 5.5z"/>
+              </svg>
+              <svg id="icon-pause" width="18" height="18" viewBox="0 0 18 18" fill="currentColor" style="display:none;">
+                <rect x="4" y="3" width="3.5" height="12" rx="1"/>
+                <rect x="10.5" y="3" width="3.5" height="12" rx="1"/>
+              </svg>
+            </button>
+            <button id="btn-skip" title="Skip to next period" style="width:34px; height:34px; border-radius:50%; border:0.5px solid var(--color-border-secondary); background:var(--color-background-primary); color:var(--color-text-primary); cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0; flex-shrink:0;">
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" style="display:block;">
+                <path d="M3 3.5l7 4.5-7 4.5z"/>
+                <rect x="11" y="3.5" width="2" height="9" rx="1"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </foreignObject>
+    </svg>
+  </div>
+
+  <hr style="border:none; border-top:0.5px solid var(--color-border-tertiary); margin:1rem 0;">
+
+  <div style="font-size:12px; color:var(--color-text-tertiary); text-align:center; margin-bottom:6px;">Work duration</div>
+  <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom:0.5rem;" id="work-opts">
+    <button class="opt" data-val="5" style="padding:6px 14px; border-radius:8px; border:0.5px solid var(--color-border-secondary); background:var(--color-background-primary); color:var(--color-text-secondary); font-size:13px; cursor:pointer;">5 min</button>
+    <button class="opt active-opt" data-val="25" style="padding:6px 14px; border-radius:8px; border:0.5px solid var(--color-border-info); background:var(--color-background-info); color:var(--color-text-info); font-size:13px; font-weight:500; cursor:pointer;">25 min</button>
+    <button class="opt" data-val="10" style="padding:6px 14px; border-radius:8px; border:0.5px solid var(--color-border-secondary); background:var(--color-background-primary); color:var(--color-text-secondary); font-size:13px; cursor:pointer;">10 min</button>
+    <button class="opt" data-val="15" style="padding:6px 14px; border-radius:8px; border:0.5px solid var(--color-border-secondary); background:var(--color-background-primary); color:var(--color-text-secondary); font-size:13px; cursor:pointer;">15 min</button>
+    <button class="opt" data-val="30" style="padding:6px 14px; border-radius:8px; border:0.5px solid var(--color-border-secondary); background:var(--color-background-primary); color:var(--color-text-secondary); font-size:13px; cursor:pointer;">30 min</button>
+  </div>
+
+  <div style="font-size:12px; color:var(--color-text-tertiary); text-align:center; margin:0.75rem 0 6px;" >Rest duration</div>
+  <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center;" id="rest-opts">
+    <button class="ropt active-ropt" data-val="5" style="padding:6px 14px; border-radius:8px; border:0.5px solid var(--color-border-info); background:var(--color-background-info); color:var(--color-text-info); font-size:13px; font-weight:500; cursor:pointer;">5 min</button>
+    <button class="ropt" data-val="10" style="padding:6px 14px; border-radius:8px; border:0.5px solid var(--color-border-secondary); background:var(--color-background-primary); color:var(--color-text-secondary); font-size:13px; cursor:pointer;">10 min</button>
+    <button class="ropt" data-val="15" style="padding:6px 14px; border-radius:8px; border:0.5px solid var(--color-border-secondary); background:var(--color-background-primary); color:var(--color-text-secondary); font-size:13px; cursor:pointer;">15 min</button>
+  </div>
+
+  <div id="overlay" style="display:none; background:var(--color-background-secondary); border:0.5px solid var(--color-border-tertiary); border-radius:12px; padding:1.5rem; text-align:center; margin-top:1rem;">
+    <p id="overlay-title" style="font-size:17px; font-weight:500; margin:0 0 6px; color:var(--color-text-primary);">Work session complete!</p>
+    <p id="overlay-msg" style="font-size:14px; color:var(--color-text-secondary); margin:0 0 1rem;">Take a break — ready to start your rest?</p>
+    <button id="btn-continue" style="padding:9px 28px; border-radius:8px; border:0.5px solid var(--color-border-info); background:var(--color-background-info); color:var(--color-text-info); font-size:14px; font-weight:500; cursor:pointer;">Start rest</button>
+  </div>
+</div>
+
+<script>
+const CIRC = 2 * Math.PI * 108;
+let workMins = 25, restMins = 5, phase = 'work';
+let totalSecs = 25*60, remaining = 25*60, running = false, ticker = null;
+
+const elMins = document.getElementById('timer-mins');
+const elSecs = document.getElementById('timer-secs');
+const ring = document.getElementById('ring');
+const phaseLabel = document.getElementById('phase-label');
+const overlay = document.getElementById('overlay');
+const overlayTitle = document.getElementById('overlay-title');
+const overlayMsg = document.getElementById('overlay-msg');
+const btnContinue = document.getElementById('btn-continue');
+const btnStart = document.getElementById('btn-start');
+const btnReset = document.getElementById('btn-reset');
+const btnSkip = document.getElementById('btn-skip');
+const iconPlay = document.getElementById('icon-play');
+const iconPause = document.getElementById('icon-pause');
+const chipWork = document.getElementById('chip-work');
+const chipRest = document.getElementById('chip-rest');
+
+function setDisplay() {
+  elMins.textContent = String(Math.floor(remaining/60)).padStart(2,'0');
+  elSecs.textContent = String(remaining%60).padStart(2,'0');
+  ring.setAttribute('stroke-dashoffset', ((1-(remaining/totalSecs))*CIRC).toFixed(2));
+}
+
+function setPhase() {
+  if (phase==='work') {
+    ring.setAttribute('stroke','#185FA5');
+    phaseLabel.textContent='Work session';
+    phaseLabel.style.color='var(--color-text-info)';
+  } else {
+    ring.setAttribute('stroke','#0F6E56');
+    phaseLabel.textContent='Rest session';
+    phaseLabel.style.color='var(--color-text-success)';
+  }
+}
+
+function playPauseIcon(isPlaying) {
+  iconPlay.style.display = isPlaying ? 'none' : 'block';
+  iconPause.style.display = isPlaying ? 'block' : 'none';
+}
+
+function endPeriod() {
+  clearInterval(ticker); running=false; playPauseIcon(false);
+  if (phase==='work') {
+    overlayTitle.textContent='Work session complete!';
+    overlayMsg.textContent='Take a break — ready to start your rest?';
+    btnContinue.textContent='Start rest';
+  } else {
+    overlayTitle.textContent='Rest complete!';
+    overlayMsg.textContent='Feeling refreshed? Start your next work session.';
+    btnContinue.textContent='Start work';
+  }
+  overlay.style.display='block';
+  btnStart.disabled=true; btnSkip.disabled=true;
+  btnStart.style.opacity='0.35';
+  btnSkip.style.opacity='0.35';
+}
+
+function tick() {
+  if (remaining<=0) { endPeriod(); return; }
+  remaining--; setDisplay();
+}
+
+btnContinue.addEventListener('click', () => {
+  overlay.style.display='none';
+  btnStart.disabled=false; btnSkip.disabled=false;
+  btnStart.style.opacity='1'; btnSkip.style.opacity='1';
+  phase = phase==='work' ? 'rest' : 'work';
+  totalSecs = (phase==='work' ? workMins : restMins)*60;
+  remaining = totalSecs;
+  setPhase(); setDisplay();
+  running=true; playPauseIcon(true);
+  ticker = setInterval(tick,1000);
+});
+
+btnStart.addEventListener('click', () => {
+  if (running) {
+    clearInterval(ticker); running=false; playPauseIcon(false);
+  } else {
+    running=true; playPauseIcon(true);
+    ticker = setInterval(tick,1000);
+  }
+});
+
+btnReset.addEventListener('click', () => {
+  clearInterval(ticker); running=false;
+  overlay.style.display='none';
+  btnStart.disabled=false; btnSkip.disabled=false;
+  btnStart.style.opacity='1'; btnSkip.style.opacity='1';
+  phase='work'; totalSecs=workMins*60; remaining=totalSecs;
+  playPauseIcon(false); setPhase(); setDisplay();
+});
+
+btnSkip.addEventListener('click', () => { endPeriod(); });
+
+function setupGroup(sel, activeClass, setter) {
+  document.querySelectorAll(sel).forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (running) return;
+      document.querySelectorAll(sel).forEach(b => {
+        b.style.background='var(--color-background-primary)';
+        b.style.borderColor='var(--color-border-secondary)';
+        b.style.color='var(--color-text-secondary)';
+        b.style.fontWeight='400';
+      });
+      btn.style.background='var(--color-background-info)';
+      btn.style.borderColor='var(--color-border-info)';
+      btn.style.color='var(--color-text-info)';
+      btn.style.fontWeight='500';
+      setter(parseInt(btn.dataset.val));
+    });
+  });
+}
+
+setupGroup('.opt', 'active-opt', val => {
+  workMins=val; chipWork.textContent='Work: '+val+' min';
+  if (phase==='work') { totalSecs=val*60; remaining=totalSecs; setDisplay(); }
+});
+
+setupGroup('.ropt', 'active-ropt', val => {
+  restMins=val; chipRest.textContent='Rest: '+val+' min';
+  if (phase==='rest') { totalSecs=val*60; remaining=totalSecs; setDisplay(); }
+});
+
+setPhase(); setDisplay();
+</script>
