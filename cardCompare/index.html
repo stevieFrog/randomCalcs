@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Card Machine Fee Calculator</title>
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card-bg: #ffffff;
+    --text: #1c1e21;
+    --muted: #6b7280;
+    --accent: #2563eb;
+    --best: #16a34a;
+    --best-bg: #ecfdf3;
+    --border: #e5e7eb;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 640px;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+    margin-bottom: 4px;
+  }
+
+  p.subtitle {
+    color: var(--muted);
+    margin-top: 0;
+    margin-bottom: 28px;
+    font-size: 0.95rem;
+  }
+
+  .input-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 20px 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 28px;
+    border: 1px solid var(--border);
+  }
+
+  label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  .amount-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .amount-wrap span {
+    position: absolute;
+    left: 14px;
+    color: var(--muted);
+    font-size: 1.1rem;
+    pointer-events: none;
+  }
+
+  input#amount {
+    width: 100%;
+    padding: 12px 12px 12px 30px;
+    font-size: 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  input#amount:focus {
+    border-color: var(--accent);
+  }
+
+  ul.results {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  li.result {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+    transition: transform 0.15s;
+  }
+
+  li.result.best {
+    border-color: var(--best);
+    background: var(--best-bg);
+  }
+
+  .provider-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .provider-name {
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .rate-inputs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .rate-field {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .rate-field label {
+    margin-bottom: 0;
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .rate-field .field-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .rate-field input {
+    width: 80px;
+    padding: 6px 8px;
+    font-size: 0.9rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    outline: none;
+    background: #fff;
+  }
+
+  .rate-field input:focus {
+    border-color: var(--accent);
+  }
+
+  .rate-field.percent input {
+    padding-right: 26px;
+  }
+
+  .rate-field.flat input {
+    padding-left: 18px;
+    width: 72px;
+  }
+
+  .rate-field .unit {
+    position: absolute;
+    color: var(--muted);
+    font-size: 0.85rem;
+    pointer-events: none;
+  }
+
+  .rate-field.percent .unit {
+    right: 8px;
+  }
+
+  .rate-field.flat .unit {
+    left: 8px;
+  }
+
+  .best-badge {
+    display: inline-block;
+    background: var(--best);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  .fee-info {
+    text-align: right;
+  }
+
+  .fee-amount {
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  .net-amount {
+    color: var(--muted);
+    font-size: 0.8rem;
+    margin-top: 2px;
+  }
+
+  .reset-wrap {
+    text-align: right;
+    margin-bottom: 12px;
+  }
+
+  .reset-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.8rem;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .reset-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    margin-top: 28px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Card Machine Fee Calculator</h1>
+  <p class="subtitle">Compare processing fees across providers for a given transaction value. Cheapest option shown at the top.</p>
+
+  <div class="input-card">
+    <label for="amount">Transaction value</label>
+    <div class="amount-wrap">
+      <span>£</span>
+      <input type="number" id="amount" value="100" min="0" step="0.01" inputmode="decimal">
+    </div>
+  </div>
+
+  <div class="reset-wrap">
+    <button class="reset-btn" id="resetBtn" type="button">Reset to defaults</button>
+  </div>
+
+  <ul class="results" id="results"></ul>
+
+  <footer>Fees are calculated per transaction. Figures are illustrative — always confirm current rates with the provider.</footer>
+</div>
+
+<script>
+  const defaultProviders = [
+    { id: "sumup-card", name: "SumUp Card", percent: 1.69, flat: 0 },
+    { id: "sumup-invoice", name: "SumUp Invoice / Link", percent: 2.5, flat: 0 },
+    { id: "stripe", name: "Stripe", percent: 1.5, flat: 0.20 },
+    { id: "paypal", name: "PayPal", percent: 2.9, flat: 0.30 }
+  ];
+
+  // Working copy that gets mutated as the user edits fees
+  let providers = defaultProviders.map(p => ({ ...p }));
+
+  const amountInput = document.getElementById('amount');
+  const resultsList = document.getElementById('results');
+  const resetBtn = document.getElementById('resetBtn');
+
+  function formatGBP(value) {
+    return '£' + value.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function render() {
+    const amount = parseFloat(amountInput.value) || 0;
+
+    const calculated = providers.map(p => {
+      const fee = (amount * (p.percent / 100)) + p.flat;
+      const net = amount - fee;
+      return { ...p, fee, net };
+    });
+
+    calculated.sort((a, b) => a.fee - b.fee);
+
+    resultsList.innerHTML = '';
+
+    calculated.forEach((p, index) => {
+      const li = document.createElement('li');
+      li.className = 'result' + (index === 0 ? ' best' : '');
+
+      li.innerHTML = `
+        <div class="provider-info">
+          <span class="provider-name">${p.name}${index === 0 ? '<span class="best-badge">Cheapest</span>' : ''}</span>
+          <div class="rate-inputs">
+            <div class="rate-field percent">
+              <label for="pct-${p.id}">Rate</label>
+              <div class="field-wrap">
+                <input type="number" id="pct-${p.id}" data-id="${p.id}" data-field="percent" value="${p.percent}" min="0" step="0.01" inputmode="decimal">
+                <span class="unit">%</span>
+              </div>
+            </div>
+            <div class="rate-field flat">
+              <label for="flat-${p.id}">Fee</label>
+              <div class="field-wrap">
+                <span class="unit">£</span>
+                <input type="number" id="flat-${p.id}" data-id="${p.id}" data-field="flat" value="${p.flat}" min="0" step="0.01" inputmode="decimal">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="fee-info">
+          <div class="fee-amount">${formatGBP(p.fee)}</div>
+          <div class="net-amount">You receive ${formatGBP(p.net)}</div>
+        </div>
+      `;
+
+      resultsList.appendChild(li);
+    });
+
+    // Wire up the newly rendered inputs
+    resultsList.querySelectorAll('input[data-id]').forEach(input => {
+      input.addEventListener('input', onFieldChange);
+      // Keep focus usable while typing: don't re-render on every keystroke re-sort jump.
+      input.addEventListener('focus', () => input.select());
+    });
+  }
+
+  function onFieldChange(e) {
+    const id = e.target.getAttribute('data-id');
+    const field = e.target.getAttribute('data-field');
+    const value = parseFloat(e.target.value);
+
+    const provider = providers.find(p => p.id === id);
+    if (provider) {
+      provider[field] = isNaN(value) ? 0 : value;
+    }
+
+    render();
+
+    // Restore focus to the field the user was editing (re-render rebuilds the DOM)
+    const refocus = document.getElementById(e.target.id);
+    if (refocus) {
+      refocus.focus();
+      const pos = refocus.value.length;
+      refocus.setSelectionRange(pos, pos);
+    }
+  }
+
+  function resetToDefaults() {
+    providers = defaultProviders.map(p => ({ ...p }));
+    amountInput.value = 100;
+    render();
+  }
+
+  amountInput.addEventListener('input', render);
+  resetBtn.addEventListener('click', resetToDefaults);
+
+  render();
+</script>
+
+</body>
+</html>
