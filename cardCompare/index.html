@@ -272,7 +272,7 @@
 
   <ul class="results" id="results"></ul>
 
-  <footer>Fees are calculated per transaction. Figures are illustrative — always confirm current rates with the provider.</footer>
+  <footer>Fees are calculated per transaction. Based on UK cards, Figures are illustrative — always confirm current rates with the provider.</footer>
 </div>
 
 <script>
@@ -280,7 +280,14 @@
     { id: "sumup-card", name: "SumUp Card", percent: 1.69, flat: 0 },
     { id: "sumup-invoice", name: "SumUp Invoice / Link", percent: 2.5, flat: 0 },
     { id: "stripe", name: "Stripe", percent: 1.5, flat: 0.20 },
-    { id: "paypal", name: "PayPal", percent: 2.9, flat: 0.30 }
+    { id: "paypal", name: "PayPal", percent: 2.9, flat: 0.30 },
+    { id: "square", name: "Square", percent: 1.75, flat: 0 },
+    { id: "square-type", name: "Square Card Not Present", percent: 2.5, flat: 0 },
+    { id: "square-store", name: "Square Online Store", percent: 1.4, flat: 0.25 },
+    { id: "worldpay", name: "Worldpay", percent: 2.75, flat: 0.20 },
+    { id: "barclaycard", name: "Barclaycard", percent: 1.69, flat: 0.10 },
+    { id: "sagepay", name: "Sage Pay", percent: 2.5, flat: 0.20 },
+    { id: "advcash", name: "AdvCash", percent: 1.5, flat: 0.15 }
   ];
 
   // Working copy that gets mutated as the user edits fees
